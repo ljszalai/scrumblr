@@ -438,9 +438,42 @@ function drawNewColumn(columnName) {
         cls = "col first";
     }
 
-    $('#icon-col').before('<td class="' + cls +
-        '" width="10%" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
-        '" class="editable">' + columnName + '</h2></td>');
+    if (totalcolumns === 0) {
+	$('#icon-col').before('<td class="' + cls +
+	    '" width="100px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
+	    '" class="editable">Story</h2></td>');
+    }
+    else if (totalcolumns === 1) {
+	$('#icon-col').before('<td class="' + cls +
+	    '" width="900px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
+	    '" class="editable">Todo</h2></td>');
+    }
+    else if (totalcolumns === 2) {
+	$('#icon-col').before('<td class="' + cls +
+	    '" width="500px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
+	    '" class="editable">In Progress</h2></td>');
+    }
+    else if (totalcolumns === 3) {
+	$('#icon-col').before('<td class="' + cls +
+	    '" width="200px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
+	    '" class="editable">Review</h2></td>');
+    }
+    else if (totalcolumns === 4) {
+	$('#icon-col').before('<td class="' + cls +
+	    '" width="100px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
+	    '" class="editable">DT</h2></td>');
+    }
+    else if (totalcolumns === 5) {
+	$('#icon-col').before('<td class="' + cls +
+	    '" width="200px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
+	    '" class="editable">Done</h2></td>');
+    }
+    else {
+	$('#icon-col').before('<td class="' + cls +
+	    '" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
+	'" class="editable">' + columnName + '</h2></td>');
+    }
+
 
     $('.editable').editable(function(value, settings) {
         onColumnChange(this.id, value);
@@ -882,9 +915,9 @@ $(function() {
 
     $(".board-outline").resizable({
         ghost: false,
-        minWidth: 700,
+        minWidth: 1800,
         minHeight: 400,
-        maxWidth: 3200,
+        maxWidth: 1800,
         maxHeight: 1800,
     });
 
