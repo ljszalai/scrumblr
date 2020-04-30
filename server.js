@@ -54,6 +54,7 @@ router.get('/', function(req, res) {
 
 	res.cookie('scrumscrum-username', sandstormUsername);
 
+	res.redirect(req.baseUrl + '/hvtf')
 	res.render('index.jade', {
 		locals: { pageTitle: ('scrumblr - ' + req.params.id) }
 	});
