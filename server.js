@@ -19,6 +19,8 @@ var	data	= require('./lib/data.js').db;
 **************/
 //Map of sids to user_names
 var sids_to_user_names = [];
+//Team name
+const team_name = "hvtf";
 
 /**************
  SETUP EXPRESS
@@ -53,7 +55,7 @@ router.get('/', function(req, res) {
 
 	res.cookie('scrumscrum-username', sandstormUsername);
 
-	res.redirect(req.baseUrl + '/hvtf')
+	res.redirect(req.baseUrl + '/' + team_name);
 	res.render('index.jade', {
 		locals: { pageTitle: ('scrumblr - ' + req.params.id) }
 	});

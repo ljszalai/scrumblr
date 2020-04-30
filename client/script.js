@@ -5,6 +5,8 @@ var currentTheme = "bigcards";
 var boardInitialized = false;
 var keyTrap = null;
 var room = "";
+const team_name = "hvtf";
+const team_room = '/' + team_name;
 
 var baseurl = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
 var socket = io.connect({path: baseurl + "/socket.io"});
@@ -432,32 +434,32 @@ function drawNewColumn(columnName) {
         cls = "col first";
     }
     
-    if (room === "/hvtf" && totalcolumns === 0) {
+    if (room === team_room && totalcolumns === 0) {
 	$('#icon-col').before('<td class="' + cls +
 	    '" width="100px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
 	    '" class="editable">Story</h2></td>');
     }
-    else if (room === "/hvtf" && totalcolumns === 1) {
+    else if (room === team_room && totalcolumns === 1) {
 	$('#icon-col').before('<td class="' + cls +
 	    '" width="900px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
 	    '" class="editable">Todo</h2></td>');
     }
-    else if (room === "/hvtf" && totalcolumns === 2) {
+    else if (room === team_room && totalcolumns === 2) {
 	$('#icon-col').before('<td class="' + cls +
 	    '" width="500px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
 	    '" class="editable">In Progress</h2></td>');
     }
-    else if (room === "/hvtf" && totalcolumns === 3) {
+    else if (room === team_room && totalcolumns === 3) {
 	$('#icon-col').before('<td class="' + cls +
 	    '" width="200px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
 	    '" class="editable">Review</h2></td>');
     }
-    else if (room === "/hvtf" && totalcolumns === 4) {
+    else if (room === team_room && totalcolumns === 4) {
 	$('#icon-col').before('<td class="' + cls +
 	    '" width="100px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
 	    '" class="editable">DT</h2></td>');
     }
-    else if (room === "/hvtf" && totalcolumns === 5) {
+    else if (room === team_room && totalcolumns === 5) {
 	$('#icon-col').before('<td class="' + cls +
 	    '" width="200px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
 	    '" class="editable">Done</h2></td>');
