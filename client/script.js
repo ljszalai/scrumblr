@@ -394,7 +394,7 @@ function createCard(id, text, x, y, rot, colour) {
 }
 
 function randomCardColour() {
-    var colours = ['yellow', 'green', 'blue', 'white'];
+    var colours = ['yellow', 'green', 'blue', 'white', 'orange'];
 
     var i = Math.floor(Math.random() * colours.length);
 
