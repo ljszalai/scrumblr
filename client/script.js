@@ -861,16 +861,6 @@ $(function() {
     );
 
 
-    // $('#cog-button').click( function(){
-    // 	$('#config-dropdown').fadeToggle();
-    // } );
-
-    // $('#config-dropdown').hover(
-    // 	function(){ /*$('#config-dropdown').fadeIn()*/ },
-    // 	function(){ $('#config-dropdown').fadeOut() }
-    // );
-    //
-
     var user_name = decodeURIComponent(getCookie('scrumscrum-username'));
 
 

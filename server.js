@@ -53,11 +53,11 @@ router.get('/', function(req, res) {
 	res.redirect(req.baseUrl + '/hvtf')
 
 	sandstormUsername = req.header('x-sandstorm-username');
-	res.cookie('scrumscrum-username', sandstormUsername);
+//	res.cookie('scrumscrum-username', sandstormUsername);
 
-	res.render('index.jade', {
-		locals: { pageTitle: ('scrumblr - ' + req.params.id) }
-	});
+//	res.render('index.jade', {
+//		locals: { pageTitle: ('scrumblr - ' + req.params.id) }
+//	});
 });
 
 router.get('/demo', function(req, res) {
