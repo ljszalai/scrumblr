@@ -2,7 +2,6 @@
  SYSTEM INCLUDES
 **************/
 var	http = require('http');
-var sys = require('sys');
 var	async = require('async');
 var 	sanitizer = require('sanitizer');
 var	compression = require('compression');
@@ -49,9 +48,11 @@ var io = require('socket.io')(server, {
 **************/
 
 router.get('/', function(req, res) {
-        url = req.header('host') + req.baseUrl;
-	sandstormUsername = req.header('x-sandstorm-username');
+	url = req.header('host') + req.baseUrl;
+	
+	res.redirect(req.baseUrl + '/hvtf')
 
+	sandstormUsername = req.header('x-sandstorm-username');
 	res.cookie('scrumscrum-username', sandstormUsername);
 
 	res.render('index.jade', {
@@ -133,9 +134,6 @@ io.sockets.on('connection', function (client) {
 
 
 				broadcastToRoom( client, message_out );
-
-				// console.log("-----" + message.data.id);
-				// console.log(JSON.stringify(message.data));
 
 				getRoom(client, function(room) {
 					db.cardSetXY( room , message.data.id, message.data.position.left, message.data.position.top);
@@ -329,8 +327,6 @@ io.sockets.on('connection', function (client) {
 			leaveRoom(client);
 	});
 
-  //tell all others that someone has connected
-  //client.broadcast('someone has connected');
 });
 
 
@@ -339,7 +335,6 @@ io.sockets.on('connection', function (client) {
 **************/
 function initClient ( client )
 {
-	//console.log ('initClient Started');
 	getRoom(client, function(room) {
 
 		db.getAllCards( room , function (cards) {
@@ -414,7 +409,6 @@ function initClient ( client )
 			}
 		}
 
-		//console.log('initialusers: ' + roommates);
 		client.json.send(
 			{
 				action: 'initialUsers',
@@ -487,7 +481,6 @@ function setUserName ( client, name )
 {
 	client.user_name = name;
 	sids_to_user_names[client.id] = name;
-	//console.log('sids to user names: ');
 	console.dir(sids_to_user_names);
 }
 
@@ -800,7 +793,6 @@ function exportRevision ( client, timestamp )
 /**************
  SETUP DATABASE ON FIRST RUN
 **************/
-// (runs only once on startup)
 var db = new data(function() {
 	cleanAndInitializeDemoRoom();
 });
