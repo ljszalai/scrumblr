@@ -375,6 +375,18 @@ function addSticker(cardId, stickerId) {
 //----------------------------------
 // cards
 //----------------------------------
+function createNewCardWithColour(colour) {
+    var rotation = Math.random() * 10 - 5; //add a bit of random rotation (+/- 10deg)
+    uniqueID = Math.round(Math.random() * 99999999); //is this big enough to assure uniqueness?
+    createCard(
+        'card' + uniqueID,
+        '',
+        200, $('div.board-outline').height(), // hack - not a great way to get the new card coordinates, but most consistant ATM
+        rotation,
+        colour);
+
+}
+
 function createCard(id, text, x, y, rot, colour) {
     drawNewCard(id, text, x, y, rot, colour, null);
 
@@ -790,31 +802,38 @@ function addRevision(timestamp) {
 
 $(function() {
 
-
-	//disable image dragging
-	//window.ondragstart = function() { return false; };
-
-
     if (boardInitialized === false)
         blockUI('<img src="images/ajax-loader.gif" width=43 height=11/>');
 
-    //setTimeout($.unblockUI, 2000);
-
-
     $("#create-card")
         .click(function() {
-            var rotation = Math.random() * 10 - 5; //add a bit of random rotation (+/- 10deg)
-            uniqueID = Math.round(Math.random() * 99999999); //is this big enough to assure uniqueness?
-            //alert(uniqueID);
-            createCard(
-                'card' + uniqueID,
-                '',
-                58, $('div.board-outline').height(), // hack - not a great way to get the new card coordinates, but most consistant ATM
-                rotation,
-                randomCardColour());
-        });
+            createNewCardWithColour(randomCardColour());
+    });
 
+    $("#create-white-card")
+    .click(function() {
+        createNewCardWithColour('white');
+    });
 
+    $("#create-yellow-card")
+    .click(function() {
+        createNewCardWithColour('yellow');
+    });
+
+    $("#create-orange-card")
+    .click(function() {
+        createNewCardWithColour('orange');
+    });
+
+    $("#create-green-card")
+    .click(function() {
+        createNewCardWithColour('green');
+    });
+
+    $("#create-blue-card")
+    .click(function() {
+        createNewCardWithColour('blue');
+    });
 
     // Style changer
     $("#smallify").click(function() {
@@ -830,7 +849,6 @@ $(function() {
 		}*/
 
         sendAction('changeTheme', currentTheme);
-
 
         return false;
     });
@@ -862,7 +880,6 @@ $(function() {
 
 
     var user_name = decodeURIComponent(getCookie('scrumscrum-username'));
-
 
 
     $("#yourname-input").focus(function() {
