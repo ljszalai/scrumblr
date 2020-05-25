@@ -19,6 +19,8 @@ var	data	= require('./lib/data.js').db;
 **************/
 //Map of sids to user_names
 var sids_to_user_names = [];
+//Team name
+const team_name = "hvtf";
 
 /**************
  SETUP EXPRESS
@@ -50,14 +52,7 @@ var io = require('socket.io')(server, {
 router.get('/', function(req, res) {
 	url = req.header('host') + req.baseUrl;
 	
-	res.redirect(req.baseUrl + '/hvtf')
-
-	sandstormUsername = req.header('x-sandstorm-username');
-//	res.cookie('scrumscrum-username', sandstormUsername);
-
-//	res.render('index.jade', {
-//		locals: { pageTitle: ('scrumblr - ' + req.params.id) }
-//	});
+	res.redirect(req.baseUrl + '/' + team_name)
 });
 
 router.get('/demo', function(req, res) {
@@ -114,7 +109,6 @@ io.sockets.on('connection', function (client) {
 			case 'joinRoom':
 				joinRoom(client, message.data, function(clients) {
 						client.json.send( { action: 'roomAccept', data: '' } );
-
 				});
 
 				break;

@@ -4,6 +4,9 @@ var columns = [];
 var currentTheme = "bigcards";
 var boardInitialized = false;
 var keyTrap = null;
+var room = "";
+const team_name = "hvtf";
+const team_room = '/' + team_name;
 
 var baseurl = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
 var socket = io.connect({path: baseurl + "/socket.io"});
@@ -12,10 +15,8 @@ marked.setOptions({linksInNewTab: true});
 
 moment.locale(navigator.language || navigator.languages[0]);
 
-//an action has happened, send it to the
-//server
+//an action has happened, send it to the server
 function sendAction(a, d) {
-    //console.log('--> ' + a);
 
     var message = {
         action: a,
@@ -26,10 +27,9 @@ function sendAction(a, d) {
 }
 
 socket.on('connect', function() {
-    //console.log('successful socket.io connect');
 
     //let the final part of the path be the room name
-    var room = location.pathname.substring(location.pathname.lastIndexOf('/'));
+    room = location.pathname.substring(location.pathname.lastIndexOf('/'));
 
     //imediately join the room which will trigger the initializations
     sendAction('joinRoom', room);
@@ -37,7 +37,6 @@ socket.on('connect', function() {
 
 socket.on('disconnect', function() {
     blockUI("Server disconnected. Refresh page to try and reconnect...");
-    //$('.blockOverlay').click($.unblockUI);
 });
 
 socket.on('message', function(data) {
@@ -76,8 +75,6 @@ function getMessage(m) {
     var action = message.action;
     var data = message.data;
 
-    //console.log('<-- ' + action);
-
     switch (action) {
         case 'roomAccept':
             //okay we're accepted, then request initialization
@@ -98,7 +95,6 @@ function getMessage(m) {
             break;
 
         case 'createCard':
-            //console.log(data);
             drawNewCard(data.id, data.text, data.x, data.y, data.rot, data.colour,
                 null);
             break;
@@ -449,33 +445,33 @@ function drawNewColumn(columnName) {
     if (totalcolumns === 0) {
         cls = "col first";
     }
-
-    if (totalcolumns === 0) {
+    
+    if (room === team_room && totalcolumns === 0) {
 	$('#icon-col').before('<td class="' + cls +
 	    '" width="100px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
 	    '" class="editable">Story</h2></td>');
     }
-    else if (totalcolumns === 1) {
+    else if (room === team_room && totalcolumns === 1) {
 	$('#icon-col').before('<td class="' + cls +
 	    '" width="900px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
 	    '" class="editable">Todo</h2></td>');
     }
-    else if (totalcolumns === 2) {
+    else if (room === team_room && totalcolumns === 2) {
 	$('#icon-col').before('<td class="' + cls +
 	    '" width="500px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
 	    '" class="editable">In Progress</h2></td>');
     }
-    else if (totalcolumns === 3) {
+    else if (room === team_room && totalcolumns === 3) {
 	$('#icon-col').before('<td class="' + cls +
 	    '" width="200px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
 	    '" class="editable">Review</h2></td>');
     }
-    else if (totalcolumns === 4) {
+    else if (room === team_room && totalcolumns === 4) {
 	$('#icon-col').before('<td class="' + cls +
 	    '" width="100px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
 	    '" class="editable">DT</h2></td>');
     }
-    else if (totalcolumns === 5) {
+    else if (room === team_room && totalcolumns === 5) {
 	$('#icon-col').before('<td class="' + cls +
 	    '" width="200px" style="display:none"><h2 id="col-' + (totalcolumns + 1) +
 	    '" class="editable">Done</h2></td>');
@@ -503,14 +499,12 @@ function drawNewColumn(columnName) {
     });
 
     $('.col:last').fadeIn(1500);
-
+    
     totalcolumns++;
 }
 
 function onColumnChange(id, text) {
     var names = Array();
-
-    //console.log(id + " " + text );
 
     //Get the names of all the columns right from the DOM
     $('.col').each(function() {
@@ -639,7 +633,6 @@ function setName(name) {
 
 function displayInitialUsers(users) {
     for (var i in users) {
-        //console.log(users);
         displayUserJoined(users[i].sid, users[i].user_name);
     }
 }
@@ -842,12 +835,6 @@ $(function() {
         } else if (currentTheme == "smallcards") {
             changeThemeTo('bigcards');
         }
-        /*else if (currentTheme == "nocards")
-		{
-			currentTheme = "bigcards";
-			$("link[title=cardsize]").attr("href", "css/bigcards.css");
-		}*/
-
         sendAction('changeTheme', currentTheme);
 
         return false;
@@ -878,9 +865,7 @@ $(function() {
         }
     );
 
-
     var user_name = decodeURIComponent(getCookie('scrumscrum-username'));
-
 
     $("#yourname-input").focus(function() {
         if ($(this).val() == 'unknown') {
@@ -912,13 +897,10 @@ $(function() {
         }
     });
 
-
-
     $(".sticker").draggable({
         revert: true,
         zIndex: 1000
     });
-
 
     $(".board-outline").resizable({
         ghost: false,
@@ -943,8 +925,6 @@ $(function() {
             adjustCard(offsets, true);
         });
     })();
-
-
 
     $('#marker').draggable({
         axis: 'x',
